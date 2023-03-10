@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Random Domain Generator</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+		}
+		label {
+			display: block;
+			margin-bottom: 10px;
+		}
+		input[type="text"] {
+			padding: 5px;
+			margin-bottom: 10px;
+		}
+		button {
+			padding: 10px 20px;
+			background-color: #008CBA;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		button:hover {
+			background-color: #005F6B;
+		}
+		.result {
+			margin-top: 20px;
+			display: flex;
+		}
+		textarea {
+			flex: 1;
+			padding: 5px;
+			margin-right: 10px;
+		}
+		.copyButton {
+			padding: 10px 20px;
+			background-color: #008CBA;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		.copyButton:hover {
+			background-color: #005F6B;
+		}
+	</style>
+</head>
+<body>
+	<h1>Random Domain Generator</h1>
+	<form>
+		<label for="prefix">Prefix:</label>
+		<input type="text" id="prefix">
+		<label for="length">Length:</label>
+		<input type="text" id="length">
+		<label for="containsNumbers">Contains Numbers:</label>
+		<input type="checkbox" id="containsNumbers">
+		<label for="domainType">Domain Type:</label>
+		<select id="domainType">
+			<option value=".com">.com</option>
+			<option value=".net">.net</option>
+			<option value=".org">.org</option>
+			<option value=".info">.info</option>
+			<option value=".biz">.biz</option>
+			<option value=".us">.us</option>
+			<option value=".sbs">.sbs</option>
+			<option value=".edu">.edu</option>
+		</select>
+		<button type="button" onclick="generate()">Generate</button>
+	</form>
+	<div class="result">
+		<textarea id="resultTextArea" rows="10"></textarea>
+		<button type="button" onclick="copyResult()" class="copyButton">Copy</button>
+	</div>
+	<script>
+		function generate() {
+			var prefix = document.getElementById("prefix").value;
+			var length = document.getElementById("length").value;
+			var containsNumbers = document.getElementById("containsNumbers").checked;
+			var domainType = document.getElementById("domainType").value;
+			var domainList = "";
+			for (var i = 0; i < 100; i++) {
+				var domainName = generateDomainName(prefix, length, containsNumbers);
+				domainList += domainName + domainType + "\n";
+			}
+			document.getElementById("resultTextArea").value = domainList;
+		}
+
+		function generateDomainName(prefix, length, containsNumbers) {
+			var characters = "abcdefghijklmnopqrstuvwxyz";
+			if (containsNumbers) {
+				characters += "0123456789";
+			}
+			var domainName = prefix;
+			while (domainName.length < length) {
+				domainName += characters.charAt(Math.floor(Math.random() * characters.length));
+		}
+		return domainName;
+	}
+
+	function copyResult() {
+		var resultTextArea = document.getElementById("resultTextArea");
+		resultTextArea.select();
+		document.execCommand("copy");
+		alert("Result copied to clipboard!");
+	}
+</script>
+
